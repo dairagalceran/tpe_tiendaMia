@@ -16,6 +16,7 @@ class ProductsController {
         $this->productModel = new ProductsModel();
         $this->categoryModel = new CategoriesModel();
         $this->view = new ProductsView();
+
         $this->loginHelper = new LoginHelper();
     }
 
@@ -29,11 +30,10 @@ class ProductsController {
         $this->view->showProduct($product);
     }
 
-    public function completeFormAdmin() {
+    public function indexAdmin() {
         $this->loginHelper->checkLoggedIn();
-        $categories = $this->categoryModel->getAllCategories();
         $products = $this->productModel->getAllProducts();
-        $this->view->showFormsAdmin(  $products, $categories);
+        $this->view->showIndexAdmin($products);
     }
     
     function showProductsEditForm($id){

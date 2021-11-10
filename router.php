@@ -1,6 +1,5 @@
 <?php
 
-
 require_once('controllers/categoryController.php');
 require_once('controllers/productsController.php');
 require_once('controllers/loginController.php');
@@ -18,33 +17,31 @@ $params = explode('/', $action);
 
 $controllerCategory = new CategoryController();
 $controllerProducts = new ProductsController();
-
+$loginController = new LoginController();
 
 switch ($params[0]) {
     case 'home':
         $controllerProducts->showProducts();
         break; 
-    case 'admin':
-        $controllerProducts->completeFormAdmin();
+    case 'adminProductos':
+        $controllerProducts->indexAdmin();
+        break;
+    case 'adminCategorias':
+        $controllerCategory->indexAdmin();
         break;
     case 'login':
-        $loginController = new LoginController();
         $loginController->showLogin();
         break;
     case 'verify': 
-        $loginController = new LoginController();
         $loginController->login();
         break;
-    case 'logout': 
-        $loginController = new LoginController();
+    case 'logout':      
         $loginController->logout();
         break;
     case 'registerForm': 
-        $loginController = new LoginController();
         $loginController->registerForm();
         break;
     case 'register': 
-        $loginController = new LoginController();
         $loginController->registerUser();
         break;
     case 'category':

@@ -18,6 +18,11 @@ class CategoriesView {
     
     }
 
+    function showIndexAdmin( $categories){
+        $this->smarty->assign('titulo','Categorias');
+        $this->smarty->assign('categories', $categories);  
+        $this->smarty->display('../templates/categories/admin.tpl');  
+    }
     function showItemsCategory($products, $category){
         $this->smarty->assign('titleItemsCategory',  $category);
         $this->smarty->assign('products', $products);

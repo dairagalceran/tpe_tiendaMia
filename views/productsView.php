@@ -29,13 +29,11 @@ class ProductsView {
         $this->smarty->display('../templates/productsList.tpl');
     }
 
-    function showFormsAdmin( $products, $categories){
-        $this->smarty->assign('titulo','Categorias');
-        $this->smarty->assign('categories', $categories);  
+    function showIndexAdmin( $products){
         $this->smarty->assign('titleAdmin','Productos');
         $this->smarty->assign('products', $products);
         $this->smarty->assign('sizes',['XS','S','M','L','XL','XXL']);
-        $this->smarty->display('../templates/admin.tpl');  
+        $this->smarty->display('../templates/products/admin.tpl');  
     }
 
    

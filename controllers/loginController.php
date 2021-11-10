@@ -28,7 +28,7 @@ class LoginController
         if (!empty($_POST['email']) && !empty($_POST['password'])) {
             $userEmail = $_POST['email'];
             $userPassword = $_POST['password'];
-            $user = $this->model->getUser($userEmail);
+            $user = $this->model->getUserByEmail($userEmail);
 
             if ($user && password_verify($userPassword, ($user->password))) {
                 $this->loginHelper->login($user);

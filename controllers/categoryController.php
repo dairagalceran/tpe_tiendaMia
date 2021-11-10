@@ -25,6 +25,13 @@ include_once('helpers/loginHelper.php');
         $this->view->showCategories($categories);
     }
     
+
+    public function indexAdmin() {
+        $this->loginHelper->checkLoggedIn();
+        $categories = $this->categoryModel->getAllCategories();
+        $this->view->showIndexAdmin(  $categories);
+    }
+
     function showItemsByCategory($id){
         $category = $this->categoryModel->findCategoryById($id);
         $products = $this->productModel->getByCategory($id);
