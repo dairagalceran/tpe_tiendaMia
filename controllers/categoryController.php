@@ -27,9 +27,9 @@ include_once('helpers/loginHelper.php');
     
 
     public function indexAdmin() {
-        $this->loginHelper->checkLoggedIn();
+        $this->loginHelper->checkIsAdmin();
         $categories = $this->categoryModel->getAllCategories();
-        $this->view->showIndexAdmin(  $categories);
+        $this->view->showIndexAdmin($categories);
     }
 
     function showItemsByCategory($id){
@@ -49,33 +49,33 @@ include_once('helpers/loginHelper.php');
     }
 
     function createCategory($category){
-        $this->loginHelper->checkLoggedIn();
+        $this->loginHelper->checkIsAdmin();
         $category = $_REQUEST['name'];
         if(!empty($category)){
             $this->categoryModel->insertCategory($category);
-            header("Location: " . BASE_URL."/admin"); 
+            header("Location: " . BASE_URL."/".CATEGORIES_ADMIN_INDEX); 
         }else {
             $this->view->showError("Faltan datos obligatorios"); 
         }   
     }
     
      function editCategory($id){
-        $this->loginHelper->checkLoggedIn();
+        $this->loginHelper->checkIsAdmin();
         $categoryName = $_REQUEST['name'];
         $this->categoryModel->updateCategory($id, $categoryName);
-        header("Location: " . BASE_URL ."/admin");
+        header("Location: " . BASE_URL."/".CATEGORIES_ADMIN_INDEX); 
     }
 
     function showCategoriesEditForm($id){
-        $this->loginHelper->checkLoggedIn();
+        $this->loginHelper->checkIsAdmin();
         $category = $this->categoryModel->findCategoryById($id);
         $this->view->completeEditForm($category);
     }
 
     function deleteCategory($id){
-        $this->loginHelper->checkLoggedIn();
+        $this->loginHelper->checkIsAdmin();
         $this->categoryModel->deleteCategory($id);
-        header("Location: " . BASE_URL ."/admin");
+        header("Location: " . BASE_URL."/".CATEGORIES_ADMIN_INDEX); 
     }
 
 }

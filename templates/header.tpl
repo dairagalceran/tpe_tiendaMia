@@ -24,7 +24,7 @@
                     <ul class="navbar-nav  ms-5 ">
                         <li class="nav-item"><a class="nav-link active"  href="">Catálogo</a> </li>
                         <li class="nav-item"><a class="nav-link active"  href="{BASE_URL}/category">Categorias</a></li>
-                        {if isset($smarty.session.USER_ID) }
+                        {if isset($smarty.session.IS_ADMIN) && ($smarty.session.IS_ADMIN) }
                         <li class="nav-item"><a class="nav-link active"  href="{BASE_URL}/adminProductos">Administrador</a> </li>
                         {/if}                    
                     </ul>

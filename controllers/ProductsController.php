@@ -16,7 +16,6 @@ class ProductsController {
         $this->productModel = new ProductsModel();
         $this->categoryModel = new CategoriesModel();
         $this->view = new ProductsView();
-
         $this->loginHelper = new LoginHelper();
     }
 
@@ -26,18 +25,19 @@ class ProductsController {
     }
 
     public function showProduct($id) {
+        $this->loginHelper->checkLoggedIn();
         $product = $this->productModel->getProduct($id);
         $this->view->showProduct($product);
     }
 
     public function indexAdmin() {
-        $this->loginHelper->checkLoggedIn();
+        $this->loginHelper->checkIsAdmin();
         $products = $this->productModel->getAllProducts();
         $this->view->showIndexAdmin($products);
     }
     
     function showProductsEditForm($id){
-        $this->loginHelper->checkLoggedIn();
+        $this->loginHelper->checkIsAdmin();
         $product = $this->productModel->getProduct($id);
         $categories = $this->categoryModel->getAllCategories();
         $this->view->completeEditProductForm($product, $categories);
@@ -49,13 +49,12 @@ class ProductsController {
             $this->editProduct($id);
         }else{
             $this->insertProduct($product);
-            var_dump($product);
         }
     }
 
     function editProduct($id){
-            $this->loginHelper->checkLoggedIn();
-            $productId= $_REQUEST['id'];
+            $this->loginHelper->checkIsAdmin();
+            $productId= $id;
             $productName = $_REQUEST['name'];
             $productPrice = $_REQUEST['price'];
             $productSize = $_REQUEST['size'];
@@ -67,7 +66,7 @@ class ProductsController {
 
     
     function insertProduct($product){
-        $this->loginHelper->checkLoggedIn();
+        $this->loginHelper->checkIsAdmin();
         $productName= $_REQUEST['name'];
         $productSize = $_REQUEST['size'];
         $productPrice = $_REQUEST['price'];
@@ -78,7 +77,7 @@ class ProductsController {
     }
 
     function deleteProduct($id){
-        $this->loginHelper->checkLoggedIn();
+        $this->loginHelper->checkIsAdmin();
         $this->productModel->deleteProduct($id);
         header("Location: " . BASE_URL ."/admin");
 

@@ -29,10 +29,13 @@ class LoginController
             $userEmail = $_POST['email'];
             $userPassword = $_POST['password'];
             $user = $this->model->getUserByEmail($userEmail);
-
             if ($user && password_verify($userPassword, ($user->password))) {
                 $this->loginHelper->login($user);
-                header("Location: " . BASE_URL . "/admin");
+                if($user->is_admin){
+                    header("Location: " . BASE_URL."/".ADMIN_DEFAULT); 
+                }else{
+                header("Location: " . BASE_URL . "/home");
+                }
             } else {
                 $this->view->showFormLogin('Usuario o contraseña inválida');
             }

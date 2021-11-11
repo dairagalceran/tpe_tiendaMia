@@ -5,6 +5,8 @@ require_once('controllers/productsController.php');
 require_once('controllers/loginController.php');
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']));
+define('CATEGORIES_ADMIN_INDEX','adminCategorias');
+define('ADMIN_DEFAULT', CATEGORIES_ADMIN_INDEX);
 
 
 if (!empty($_GET['action'])){
@@ -26,7 +28,7 @@ switch ($params[0]) {
     case 'adminProductos':
         $controllerProducts->indexAdmin();
         break;
-    case 'adminCategorias':
+    case CATEGORIES_ADMIN_INDEX:
         $controllerCategory->indexAdmin();
         break;
     case 'login':
