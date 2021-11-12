@@ -23,9 +23,12 @@
                 <div id="navbarText" class="collapse navbar-collapse" >
                     <ul class="navbar-nav  ms-5 ">
                         <li class="nav-item"><a class="nav-link active"  href="">Catálogo</a> </li>
-                        <li class="nav-item"><a class="nav-link active"  href="{BASE_URL}/category">Categorias</a></li>
                         {if isset($smarty.session.IS_ADMIN) && ($smarty.session.IS_ADMIN) }
-                        <li class="nav-item"><a class="nav-link active"  href="{BASE_URL}/adminProductos">Administrador</a> </li>
+                            <li class="nav-item"><a class="nav-link active"  href="{BASE_URL}/adminProducts">AdminProductos</a> </li>
+                            <li class="nav-item"><a class="nav-link active"  href="{BASE_URL}/adminCategories">AdminCategorias</a> </li>
+                            <li class="nav-item"><a class="nav-link active"  href="{BASE_URL}/adminUsers">AdminUsuarios</a> </li>
+                        {else}
+                            <li class="nav-item"><a class="nav-link active"  href="{BASE_URL}/category">Categorías</a> </li>
                         {/if}                    
                     </ul>
                 </div>
@@ -34,7 +37,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             {if isset($smarty.session.USER_ID)} 
-                                <a class="nav-link active" aria-current="page" href="{BASE_URL}/logout"><small>Logout de {$smarty.session.USER_EMAIL}<small></a>
+                                <a class="nav-link active" aria-current="page" href="{BASE_URL}/logout"><small>Logout de {$smarty.session.USER_NAME}<small></a>
                             {else}  
                                 <a class="nav-link active" aria-current="page" href="{BASE_URL}/login"><samll>Iniciar sesión</small></a>
                             {/if}

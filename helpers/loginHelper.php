@@ -12,6 +12,7 @@ class LoginHelper {
     public function login($user) {
         $_SESSION['USER_ID'] = $user->id;
         $_SESSION['USER_EMAIL'] = $user->email;
+        $_SESSION['USER_NAME'] = $user->name;
         $_SESSION['IS_ADMIN']= $user->is_admin; 
     }
 

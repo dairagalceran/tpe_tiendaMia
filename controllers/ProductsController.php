@@ -33,7 +33,8 @@ class ProductsController {
     public function indexAdmin() {
         $this->loginHelper->checkIsAdmin();
         $products = $this->productModel->getAllProducts();
-        $this->view->showIndexAdmin($products);
+        $categories = $this->categoryModel->getAllCategories();
+        $this->view->showIndexAdmin($products, $categories);
     }
     
     function showProductsEditForm($id){
@@ -61,7 +62,7 @@ class ProductsController {
             $category_id = $_REQUEST['category_id'];
             
             $this->productModel->updateProduct($productId , $productName,floatval($productPrice), $productSize, $category_id);
-            header("Location: " . BASE_URL."/admin");
+            header("Location: " . BASE_URL."/".PRODUCTS_ADMIN_INDEX);
     }
 
     
@@ -73,13 +74,13 @@ class ProductsController {
         $category_id = $_REQUEST['category_id'];
 
         $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id);
-        header("Location: " . BASE_URL."/admin"); 
+        header("Location: " . BASE_URL."/".PRODUCTS_ADMIN_INDEX); 
     }
 
     function deleteProduct($id){
         $this->loginHelper->checkIsAdmin();
         $this->productModel->deleteProduct($id);
-        header("Location: " . BASE_URL ."/admin");
+        header("Location: " . BASE_URL ."/".PRODUCTS_ADMIN_INDEX);
 
     }
 

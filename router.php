@@ -5,7 +5,9 @@ require_once('controllers/productsController.php');
 require_once('controllers/loginController.php');
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']));
-define('CATEGORIES_ADMIN_INDEX','adminCategorias');
+define('CATEGORIES_ADMIN_INDEX','adminCategories');
+define('PRODUCTS_ADMIN_INDEX','adminProducts');
+define('USERS_ADMIN_INDEX','adminUsers');
 define('ADMIN_DEFAULT', CATEGORIES_ADMIN_INDEX);
 
 
@@ -25,11 +27,14 @@ switch ($params[0]) {
     case 'home':
         $controllerProducts->showProducts();
         break; 
-    case 'adminProductos':
+    case PRODUCTS_ADMIN_INDEX:
         $controllerProducts->indexAdmin();
         break;
     case CATEGORIES_ADMIN_INDEX:
         $controllerCategory->indexAdmin();
+        break;
+    case USERS_ADMIN_INDEX:
+        $loginController->indexAdmin();
         break;
     case 'login':
         $loginController->showLogin();
@@ -45,6 +50,12 @@ switch ($params[0]) {
         break;
     case 'register': 
         $loginController->registerUser();
+        break;
+    case 'deleteUser':
+        $loginController->deleteUser($params[1], $params[2]);
+        break;
+    case 'editRol':
+        $loginController->editRol($params[1], $params[2]);
         break;
     case 'category':
         $controllerCategory->showCategories(); 

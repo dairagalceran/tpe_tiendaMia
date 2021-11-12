@@ -4,6 +4,10 @@
     <form method="POST"  action= "{BASE_URL}/register" class="row g-3 needs-validation" novalidate>
         <h4> Registrarse</h4>
         <div class="form-group">
+            <label for="name">Nombre de Usuario</label>
+            <input type="text" name="name" required class="form-control" id="name"  aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
             <label for="email">Email</label>
             <input type="email" name="email" required class="form-control" id="email"  aria-describedby="emailHelp">
         </div>

@@ -17,5 +17,15 @@ class LoginView {
         $this->smarty->assign('error', $error);
         $this->smarty->display('templates/users/formLogin.tpl');
     }
+    function indexUsers($users, $error =null){
+        $this->smarty->assign('titleAdmin', 'Listado de usuarios y administradores');
+        $this->smarty->assign('users', $users);
+        $this->smarty->assign('error', $error);
+        $this->smarty->display('templates/users/admin.tpl');
 
+    }
+        
+        function editRol($users){
+
+ }
 }

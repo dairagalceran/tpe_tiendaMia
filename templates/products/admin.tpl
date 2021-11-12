@@ -1,6 +1,5 @@
 {include file="templates/header.tpl"}
 
-
 <div class="container ">
    
     <h3>{$titleAdmin}</h3>
