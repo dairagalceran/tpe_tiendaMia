@@ -21,7 +21,7 @@
             <tbody>
             {foreach from=$users item=$user }
                     <tr>
-                        <th scope="row">{$user->name|upper}</th>
+                        <td scope="row">{$user->name|upper}</td>
                             <td>{$user->email|capitalize}</td>
                             {if $user->is_admin==0}
                                 <td>Usuario</td>
