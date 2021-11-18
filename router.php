@@ -52,11 +52,14 @@ switch ($params[0]) {
         $loginController->registerUser();
         break;
     case 'deleteUser':
-        $loginController->deleteUser($params[1], $params[2]);
+        $loginController->deleteUser($params[1]);
         break;
     case 'editRol':
         $loginController->editRol($params[1], $params[2]);
         break;
+        case 'alterRol':
+            $loginController->alterRol($params[1]);
+            break;
     case 'category':
         $controllerCategory->showCategories(); 
         break;

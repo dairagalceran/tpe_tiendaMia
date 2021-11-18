@@ -72,45 +72,57 @@ class LoginController
     function indexAdmin(){
         $this->loginHelper->checkIsAdmin();
         $users = $this->model->getAll();
-        var_dump($users);
         $this->view->indexUsers($users, $error=null);
     }
-
-    function editRol($id, $isAdmin){
-        $this->loginHelper->checkIsAdmin();
-        if($isAdmin == 0){
-            $isAdmin = '1';
-            echo ('dentro delete is admin == 0');
-            $this->model->editRol($id, $isAdmin);
-            header("Location: " . BASE_URL . "/". USERS_ADMIN_INDEX);
-        }
-        else{
-            $isAdmin = $this->model->getUsersAdmin();
-            $quantityAdmin = count($isAdmin);
-                if($quantityAdmin>1){
-                    $isAdmin = '0';
-                    $this->model->editRol($id ,$isAdmin);
-                }   
+    function alterRol($id){
+        $user = $this->model->getUserById($id);
+        if($user->is_admin){
+            $usuariosAdministradores = $this->model->getUsersAdmin();
+            $cantidadDeUsuariosAdministradores = count($usuariosAdministradores);
+            if($cantidadDeUsuariosAdministradores > 1){
+                $this->model->editRol($id, 0);
+            } 
+        }else{
+            $this->model->editRol($id, 1);
         }
         header("Location: " . BASE_URL . "/". USERS_ADMIN_INDEX);
+
+    }
+    function editRol($id, $isAdmin){
+        $this->loginHelper->checkIsAdmin();
+       
+        if($isAdmin == '0'){
+            $usuariosAdministradores = $this->model->getUsersAdmin();
+            $cantidadDeUsuariosAdministradores = count($usuariosAdministradores);
+            if($cantidadDeUsuariosAdministradores > 1){
+                $this->model->editRol($id, $isAdmin);
+            }   
+        } else {
+            $this->model->editRol($id, $isAdmin);
+        }
+
+        header("Location: " . BASE_URL . "/". USERS_ADMIN_INDEX);
+        
     }
     
 
-    function deleteUser($id, $is_admin){
+    function deleteUser($id){
         $this->loginHelper->checkIsAdmin();
-        if($is_admin == 0){
+        $user = $this->model->getUserById($id);
+
+        if($user->is_admin == '0'){
             $this->model->delete($id);
             header("Location: " . BASE_URL . "/". USERS_ADMIN_INDEX);
         }else{
-            $admin = $this->model->getUsersAdmin();
-            $quantityAdmin = count($admin);
-                if($quantityAdmin>1){
-                    $this->model->delete($id);
-                    header("Location: " . BASE_URL . "/". USERS_ADMIN_INDEX);
-                }else{
-                    $this->view->indexUsers($users=null, 'no es posible borrar al único administrador');
-                }
+            $usuariosAdministradores = $this->model->getUsersAdmin();
+            $cantidadDeUsuariosAdministradores = count($usuariosAdministradores);
+            if($cantidadDeUsuariosAdministradores > 1){
+                $this->model->delete($id);
+            } else{
+                $users = $this->model->getAll();
 
+                   return $this->view->indexUsers($users, 'no es posible borrar al único administrador');
+            }
         }
         header("Location: " . BASE_URL . "/". USERS_ADMIN_INDEX);
     }

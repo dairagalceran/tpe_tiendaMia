@@ -28,8 +28,14 @@
                             {else}
                                 <td>Administrador</td>
                             {/if}
-                            <td><a class="btn btn-success" href="{BASE_URL}/deleteUser/{$user->id}/{$user->is_admin}">Eliminar</a> </td>
-                            <td><a class="btn btn-success" href="{BASE_URL}/editRol/{$user->id}/{$user->is_admin} ">Editar Rol</a>
+                            <td><a class="btn btn-success" href="{BASE_URL}/deleteUser/{$user->id}">Eliminar</a> </td>
+                            <td><a class="btn btn-success" href="{BASE_URL}/alterRol/{$user->id}">
+                            {if $user->is_admin==0}
+                                Convertir en Admin</a>
+                            {else}
+                                Sacar Rol Admin
+                            {/if}
+                            </a></td>
                     </tr>
             {/foreach}     
             </tbody>

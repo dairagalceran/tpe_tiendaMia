@@ -19,6 +19,13 @@ class LoginModel {
  
     }
 
+    function getUserById($id){
+        $query = $this->db->prepare('SELECT * FROM users WHERE id = ?');
+        $query->execute([$id]);
+        $user = $query->fetch(PDO::FETCH_OBJ);
+        return $user;
+    }
+
     function getUserByEmail($userEmail){
         $query = $this->db->prepare('SELECT * FROM users WHERE email = ?');
         $query->execute([$userEmail]);
@@ -27,10 +34,9 @@ class LoginModel {
     }
    
     function getUsersAdmin(){
-        $query = $this->db->prepare('SELECT * FROM users WHERE is_Admin = ?');
+        $query = $this->db->prepare('SELECT * FROM users WHERE is_admin = ?');
         $query->execute([1]);
-        $isAdmin = $query->fetch(PDO::FETCH_OBJ);
-        return $isAdmin;
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
     function delete($id){
@@ -39,9 +45,8 @@ class LoginModel {
     }
 
     function editRol($id, $isAdmin){
-        $query = $this->db->prepare('UPDATE users SET  is_admin = 1, WHERE id = ?');
+        $query = $this->db->prepare('UPDATE users SET  is_admin = ? WHERE id = ?');
         $query->execute([ $isAdmin, $id]);
-        return $id;
     }
   
 }

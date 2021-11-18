@@ -29,7 +29,7 @@ class LoginHelper {
     }
 
     public function checkIsAdmin() { 
-        if (! $this->isAdmin()) {
+        if (!$this->isAdmin()) {
             error_log('checkIsAdmin->no es admin');
             header("Location: " . BASE_URL ."/home");
             die();
