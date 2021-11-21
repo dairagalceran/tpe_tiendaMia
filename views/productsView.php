@@ -45,6 +45,11 @@ class ProductsView {
         $this->smarty->display('../templates/products/productsForm.tpl');
     }
 
+    function showCommentForm($product){
+        $this->smarty->assign('tituloform', 'Deja tu comentario...');  
+        $this->smarty->display('templates/products/productCommentForm.tpl');
+    }
+
     function showError($msgError) {
         $this->smarty->assign('error', $msgError);
         $this->smarty->display('../templates/admin.tpl');
