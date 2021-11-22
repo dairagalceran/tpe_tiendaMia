@@ -20,7 +20,6 @@ class ProductsController {
     }
 
     public function showCommentLayout() {
-       
         $this->view->showCommentLayout();
     }
     public function showProducts() {

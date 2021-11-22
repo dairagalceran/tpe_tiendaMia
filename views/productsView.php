@@ -45,7 +45,7 @@ class ProductsView {
         $this->smarty->display('../templates/products/productsForm.tpl');
     }
 
-    function showCommentLayout($id){
+    function showCommentLayout(){
         $this->smarty->assign('titulo', 'Deja tu comentario...');  
         $this->smarty->display('templates/products/commentsLayout.tpl');
     }
