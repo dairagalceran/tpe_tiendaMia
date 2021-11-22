@@ -7,8 +7,8 @@ let comments =[];
 async function descargarCommentsProductId(id) {
     try {
         const response = await fetch(API_URL  + '/product/'+ id)
-        let commentByProduct =response.json();
-        comments = commentByProduct;
+        let commentsByProduct =response.json();
+        comments = commentsByProduct;
        render();
     } catch (error) {
         console.log(error + "Descargar comentarios del producto  "+id);
@@ -23,6 +23,7 @@ form.addEventListener('submit', addComment);
 
 async function addComment(e){
     e.preventDefault();
+    console.log( 'dentro de add'); 
     let data = new FormData(form);
     let comment = {                   
         score: data.get('score'),
@@ -31,7 +32,7 @@ async function addComment(e){
         product: data.get('id_product'),   
         
     }
-    console.log( 'dentro de add'); 
+    console.log( 'dentro de add 2'); 
     try {
         let response  = await fetch(API_URL,{
             method: "POST",
@@ -42,8 +43,8 @@ async function addComment(e){
         });
         if (response.ok){
             let comment = await response.json();
-            //tasks.push(task);
-            descargarComments()();
+            comments.push(comment);
+            descargarComments();
             //clearForm();
         }
     } catch (e) {

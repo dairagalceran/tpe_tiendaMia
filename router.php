@@ -87,9 +87,9 @@ switch ($params[0]) {
     case 'editProductForm':
         $controllerProducts->showProductsEditForm($params[1]);
         break;
-    case 'commentProduct':    
+    /*case 'commentProduct':    
         $controllerProducts->showCommentForm($params[1]);
-        break;
+        break;*/
     default:
         echo '404 - Página no encontrada';
         break;

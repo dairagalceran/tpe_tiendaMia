@@ -33,9 +33,9 @@ class ApiCommentsController {
 
     public function getAllCommentsByProduct($params = null) {
         $producId = $params[':ID'];
-        $comment = $this->commentsModel->getCommentByProductId($producId);
-        if ($comment){
-            $this->view->response($comment, 200);
+        $comments = $this->commentsModel->getCommentsByProductId($producId);
+        if ($comments){
+            $this->view->response($comments, 200);
         }
         else{
           $this->view->response("Comentarios del producto id=$producId not found", 404);
@@ -53,16 +53,15 @@ class ApiCommentsController {
         }
     }
 
-    //crear modelo comentarios y las funciones del PDO
     public function addComment($params = null) {
         $data = $this->getData();
 
         $score= $data->score;
         $comment = $data->comment;
-        $idUser = $data->user_id; //ver
-        $idProduct= $data->product_id; //ve
+        $user_id = $data->user_id; //ver
+        $product_id= $data->product_id; //ve
 
-        $id = $this->commentsModel->insertComment($score, $comment, $idUser, $idProduct);
+        $id = $this->commentsModel->insertComment($score, $comment, $user_id, $product_id);
         
         $comment = $this->commentsModel->getCommentById($id);
         if ($comment)

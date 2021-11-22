@@ -1,27 +1,43 @@
+<div id="app" >
+   
+    <h1>{$title}</h3>
+    <form id="formAddComment"  submit= "addComment"  method="POST">
+        <div class="col-8">
+        <div class="form-group">
+            <label> Comentario</label>
+            <input name="comment"   type="text" class="form-control">
+        </div>
 
-
-{include file="templates/header.tpl"}
-            
-                <form action="" id="create-comment-form" method="POST" class="my-4">
-                    <h1 class= "mt-2">{$tituloform}<h1>
-                    <h2 class= "mt-2">Comentario</h2>
-                    <div>
-                        <select class="form-select" name="score">
+        <div class="table mt-5 col-md-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" >Valoración</th>                    
+                        <th scope="col"  ></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                        <select name="score" class="form-control">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
                             <option value="5">5</option>
                         </select>
-                    </div>
-                    <div>   
-                        <label for="comment">Comentario</label>
-                        <input name="comment" type="text" class="form-control" required>
-                    </div>
-                    <input name="id_product" type="hidden" value="{$product->id}">
-                    <input name="id_user" type="hidden" value="{$smarty.session.USER_ID}">
-                    <button type="submit" class="btn btn-primary mt-2">Guardar</button>
-                </form>
-         
-<script src="js/api.js"></script>
-{include file="templates/footer.tpl" assign=name var1=value}
+                        </th>
+                        <th>
+                            <a class="btn btn-success" href="{BASE_URL}/commentProduct/{$product->id}">Agregar comentario</a> 
+                            <input type="hidden" name="id"  value={$product->id} />
+                        </th>
+                    </tr>  
+                </tbody>
+            </table> 
+        </div>
+    </form>
+
+    <ul id="list-comments" class="list-group">
+        <-- !listar comentarios -->
+    </ul>
+</div>

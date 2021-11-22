@@ -23,7 +23,7 @@ class CommentsModel {
         return $comment;
     }
 
-    function getCommentByProductId($producId){
+    function getCommentsByProductId($producId){
         $query = $this->db->prepare('SELECT `c`.score ,  u.name, p.name, `c`.comment FROM `products` p INNER JOIN `comments` c INNER JOIN `users`u WHERE `c`.id_user = `u`.id AND c.id_product = p.id AND id_product = ?');
         $query->execute(array($producId));
         $commentsByProduct = $query->fetch(PDO::FETCH_OBJ);
@@ -31,9 +31,9 @@ class CommentsModel {
 
     }
 
-    function insertComment($comment, $score, $userId, $productId){
+    function insertComment($comment, $score, $user_id, $product_id){
         $query = $this->db->prepare('INSERT INTO `comments`(`comment`, `score`, `id_user`, `id_product`) VALUES (?,?,?,?)');
-        $query->execute([$comment, $score, $userId, $productId]);
+        $query->execute([$comment, $score, $user_id, $product_id]);
         $comment =$this->db->lastInsertId();
         return $comment;
     }
