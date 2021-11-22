@@ -19,9 +19,9 @@ class ProductsController {
         $this->loginHelper = new LoginHelper();
     }
 
-    public function showCommentForm($id) {
-        $product = $this->productModel->getProduct($id);
-        $this->view->showCommentForm($product);
+    public function showCommentLayout() {
+       
+        $this->view->showCommentLayout();
     }
     public function showProducts() {
         $products = $this->productModel->getAllProducts();

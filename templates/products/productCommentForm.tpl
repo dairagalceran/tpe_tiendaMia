@@ -1,6 +1,8 @@
+
 <div id="app" >
    
-    <h1>{$title}</h3>
+    <h1>{$titulo}<h1>
+
     <form id="formAddComment"  submit= "addComment"  method="POST">
         <div class="col-8">
         <div class="form-group">
@@ -12,8 +14,8 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" >Valoración</th>                    
-                        <th scope="col"  ></th>
+                        <th scope="col">Valoración</th>                    
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,15 +31,21 @@
                         </th>
                         <th>
                             <a class="btn btn-success" href="{BASE_URL}/commentProduct/{$product->id}">Agregar comentario</a> 
-                            <input type="hidden" name="id"  value={$product->id} />
                         </th>
                     </tr>  
                 </tbody>
             </table> 
-        </div>
+        </div>  
     </form>
-
+    
     <ul id="list-comments" class="list-group">
-        <-- !listar comentarios -->
-    </ul>
+        <li class="list-group-item d-flex">
+                {comment.comment}|{comment.score}
+            <div class="acciones ms-auto">
+                <a class="btn btn-sm btn-danger" >Borrar</a>
+            </div>
+        </li>
+     </ul>
+    
+
 </div>
