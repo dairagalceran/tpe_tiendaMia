@@ -19,6 +19,13 @@ class ProductsController {
         $this->loginHelper = new LoginHelper();
     }
 
+    function getOrThrow($key){
+        if (isset($_REQUEST[$key]) && $_REQUEST[$key] != '') {
+            return $_REQUEST[$key];
+        }
+        throw new Exception("Falta el dato $key");
+    }
+
     public function showCommentLayout() {
         $this->view->showCommentLayout();
     }
@@ -28,9 +35,10 @@ class ProductsController {
     }
 
     public function showProduct($id) {
-        $this->loginHelper->checkLoggedIn();
+        $isAdmin = $this->loginHelper->isAdmin(); //agrego barrera seguridad para borrar siendo admin
+        $isLoggedIn = $this->loginHelper->getCurrentUserId()!== false;
         $product = $this->productModel->getProduct($id);
-        $this->view->showProduct($product);
+        $this->view->showProduct($product,$isAdmin,$isLoggedIn);
     }
 
     public function indexAdmin() {
@@ -59,11 +67,10 @@ class ProductsController {
     function editProduct($id){
             $this->loginHelper->checkIsAdmin();
             $productId= $id;
-            $productName = $_REQUEST['name'];
-            $productPrice = $_REQUEST['price'];
-            $productSize = $_REQUEST['size'];
-            $category_id = $_REQUEST['category_id'];
-            
+            $productName = $this->getOrThrow('name');
+            $productPrice = $this->getOrThrow('price'); 
+            $productSize = $this->getOrThrow('size'); 
+            $category_id = $this->getOrThrow('category_id');
             $this->productModel->updateProduct($productId , $productName,floatval($productPrice), $productSize, $category_id);
             header("Location: " . BASE_URL."/".PRODUCTS_ADMIN_INDEX);
     }
@@ -71,13 +78,19 @@ class ProductsController {
     
     function insertProduct($product){
         $this->loginHelper->checkIsAdmin();
-        $productName= $_REQUEST['name'];
-        $productSize = $_REQUEST['size'];
-        $productPrice = $_REQUEST['price'];
-        $category_id = $_REQUEST['category_id'];
+        try{
+            $productName= $this->getOrThrow('name');
+            $productSize = $this->getOrThrow('size');
+            $productPrice = $this->getOrThrow('price'); 
+            $category_id =  $this->getOrThrow('category_id');
+            $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id);
+            header("Location: " . BASE_URL."/".PRODUCTS_ADMIN_INDEX); 
+        }catch(Exception $e){
+            $this->view->showError($e->getMessage());
+        }
+        
 
-        $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id);
-        header("Location: " . BASE_URL."/".PRODUCTS_ADMIN_INDEX); 
+     
     }
 
     function deleteProduct($id){

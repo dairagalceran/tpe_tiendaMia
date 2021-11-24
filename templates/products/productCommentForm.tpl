@@ -38,14 +38,7 @@
         </div>  
     </form>
     
-    <ul id="list-comments" class="list-group">
-        <li class="list-group-item d-flex">
-                {comment.comment}|{comment.score}
-            <div class="acciones ms-auto">
-                <a class="btn btn-sm btn-danger" >Borrar</a>
-            </div>
-        </li>
-     </ul>
+   
     
 
 </div>

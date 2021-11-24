@@ -1,18 +1,23 @@
 <?php
 require_once 'models/commentsModel.php';
 require_once 'api/apiView.php';
+include_once('helpers/loginHelper.php');
+
 
 
 class ApiCommentsController {
     private $commentsModel;
     private $view;
     private $data;
+    private $loginHelper;
+
   
 
     function __construct() {
         $this->commentsModel = new CommentsModel();
         $this->view = new ApiView();
         $this->data = file_get_contents("php://input");
+        $this->loginHelper = new LoginHelper();
     }
 
     
@@ -20,16 +25,7 @@ class ApiCommentsController {
         return json_decode($this->data);
     }
  
-       
-    public function getAll() {
-        $comments = $this->commentsModel->getAll();
-        $this->view->response($comments,200);
-     }
-    /* 
-     * Obtiene comentario dado un ID
-     * 
-     * $params arreglo asociativo con los parámetros del recurso
-     */
+      
 
     public function getAllCommentsByProduct($params = null) {
         $producId = $params[':ID'];
@@ -42,7 +38,9 @@ class ApiCommentsController {
         }
     }
 
+    
     public function getCommentById($params = null) {
+        $user_id = $this->loginHelper->getCurrentUserId(); 
         $id = $params[':ID'];
         $comment = $this->commentsModel->getCommentById($id);
         if ($comment){
@@ -53,33 +51,50 @@ class ApiCommentsController {
         }
     }
 
+
     public function addComment($params = null) {
-        $data = $this->getData();
-
-        $score= $data->score;
-        $comment = $data->comment;
-        $user_id = $data->user_id; //ver
-        $product_id= $data->product_id; //ve
-
-        $id = $this->commentsModel->insertComment($score, $comment, $user_id, $product_id);
+        $user_id = $this->loginHelper->getCurrentUserId(); 
+        if(! $user_id){
+            $this->view->response("Debe iniciar sesión", 401);
+            }else{
+                $data = $this->getData();
+                
+                $score= $data->score;
+                $comment = $data->comment;
+                $product_id= $data->product_id; 
+                
+                if($score!='' && $comment!='' && $product_id!= ''){
+                $id = $this->commentsModel->insertComment($comment, $score, $user_id, $product_id);
+                
+                
+                $comment = $this->commentsModel->getCommentById($id);
+            
+                if ($comment){
+                    $this->view->response($comment, 200);
+                }
+                else{
+                    $this->view->response("El comentario  no fue creado", 400);
+                }
+            }else{
+            $this->view->response("error", 204);
+            }
+        }
         
-        $comment = $this->commentsModel->getCommentById($id);
-        if ($comment)
-            $this->view->response($comment, 200);
-        else
-            $this->view->response("El comentario  no fue creado", 500);
     }
 
-    public function remove($params = null){
+
+    public function removeComment($params = null){
         $id = $params[':ID'];
         $comment = $this->commentsModel->getCommentById($id);
         
         if ($comment) {
             $this->commentsModel->deleteComment($id);
-            $this->view->response(null, 204);
+            $this->view->response("Comment id=$id remove succesfully", 204);
         } else {
             $this->view->response("Comment id=$id not found", 404);
         }
        
     }
+
+    
 }

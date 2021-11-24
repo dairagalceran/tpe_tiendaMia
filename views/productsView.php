@@ -17,9 +17,11 @@ class ProductsView {
         $this->smarty->display('../templates/products/productsList.tpl');
     }
 
-    function showProduct($product){
+    function showProduct($product,$isAdmin,$isLoggedIn){
         $this->smarty->assign('titleProduct','Hecho para ti');
         $this->smarty->assign('product', $product);
+        $this->smarty->assign('isAdmin', $isAdmin);
+        $this->smarty->assign('isLoggedIn', $isLoggedIn);
         $this->smarty->display('../templates/products/productDetail.tpl');
     }
 
