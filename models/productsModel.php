@@ -62,6 +62,8 @@ class ProductsModel {
 
     function deleteProduct($id){
         $this->deleteImageFile($id);
+        $this->deleteImageFile($id);
+
         $query = $this->db->prepare('DELETE  FROM  `products`  WHERE id= ?');
         $query->execute([$id]);
         
