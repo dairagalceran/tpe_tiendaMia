@@ -75,9 +75,12 @@ switch ($params[0]) {
     case 'productsCategory':
         $controllerCategory->showItemsByCategory($params[1]);
         break;
-    case 'postProduct':
-        $controllerProducts->upsertProduct($params[1]);      
+    case 'editProduct':
+        $controllerProducts->editProduct($params[1]);      
         break;  
+    case 'postProduct':
+        $controllerProducts->insertProduct();      
+        break;
     case 'productView':
         $controllerProducts->showProduct($params[1]); 
         break;
@@ -86,6 +89,9 @@ switch ($params[0]) {
         break;
     case 'editProductForm':
         $controllerProducts->showProductsEditForm($params[1]);
+        break;
+    case 'deleteImage':
+        $controllerProducts->deleteImage($params[1]); 
         break;
     default:
         echo '404 - Página no encontrada';

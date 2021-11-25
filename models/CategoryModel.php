@@ -6,6 +6,7 @@ class CategoriesModel {
 
     public function __construct() {
         $this->db = new PDO('mysql:host=localhost;'.'dbname=db_tienda;charset=utf8', 'root', '');
+        $this->db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
     }
 
    
@@ -35,9 +36,14 @@ class CategoriesModel {
     }
 
     function updateCategory($id, $categoryName){
-        $query = $this->db->prepare('UPDATE categories SET name = ? WHERE id = ?');
-        $query->execute([$categoryName, $id]);
-        return $id;
+        try{
+            $query = $this->db->prepare('UPDATE categories SET name = ? WHERE id = ?');
+            $query->execute([$categoryName, $id]);
+            return $id;
+        }
+        catch (PDOException $error) {
+            echo "Línea de error:  " .$error->getLine();
+        } 
     }
      
 

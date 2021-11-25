@@ -1,8 +1,47 @@
 {include file="templates/header.tpl"}
 
 <div class="container ">
-   
     <h3>{$titleAdmin}</h3>
+
+    <form action="{BASE_URL}/postProduct" method="POST" class="my-4" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-5">
+                <h5>Agregar productos</h5>
+                    <div class="form-group">
+                        <select class="form-select" name="category_id">
+                            {foreach from=$categories item=$category }
+                                <option value="{$category->id}">{$category->name|upper}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Producto</label>
+                        <input name="name" type="text" class="form-control" required>
+                    </div>
+                    <div  class="form-group">
+                        <select class="form-select" name="size">
+                                {foreach from=$sizes item=$size }
+                                    <option value="{$size}">{$size|upper}</option>
+                                {/foreach}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Precio</label>
+                        <input name="price" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="file" name="input_name" id="imageToUpload">
+                    </div>
+                    
+            </div>
+        </div>
+        <div class="mt-3">
+        <button type="submit" class="btn btn-primary mt-2">Guardar</button>
+        </div>
+    </form>
+
+
+  
     <div class="table mt-5 col-md-5">
         <table class="table">
             <thead>
@@ -33,30 +72,7 @@
     </div>
 </div>
 
-<form action="{BASE_URL}/postProduct" method="POST" class="my-4">
-    <div class="row">
-        <div class="col-9">
-        <h5>Agregar productos</h5>
-            <div class="form-group">
-                <select class="form-select" name="category_id">
-                    {foreach from=$categories item=$category }
-                        <option value="{$category->id}">{$category->name|upper}</option>
-                    {/foreach}
-                </select>
-                <label for="name">Producto</label>
-                <input name="name" type="text" class="form-control" required>
-                <select class="form-select" name="size">
-                        {foreach from=$sizes item=$size }
-                            <option value="{$size}">{$size|upper}</option>
-                        {/foreach}
-                </select>
-                <label for="price">Precio</label>
-                <input name="price" type="text" class="form-control" required>
-            </div>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary mt-2">Guardar</button>
-</form>
+
 
 
 {include file="templates/footer.tpl" assign=name var1=value}

@@ -55,41 +55,65 @@ class ProductsController {
         $this->view->completeEditProductForm($product, $categories);
     }    
 
-    function upsertProduct($product){
+   /* function upsertProduct($product){
         $id= $_REQUEST['id'];
         if($id){
             $this->editProduct($id);
         }else{
             $this->insertProduct($product);
         }
-    }
+    }*/
 
     function editProduct($id){
             $this->loginHelper->checkIsAdmin();
+            $id= $_REQUEST['id'];
+
             $productId= $id;
             $productName = $this->getOrThrow('name');
             $productPrice = $this->getOrThrow('price'); 
             $productSize = $this->getOrThrow('size'); 
             $category_id = $this->getOrThrow('category_id');
-            $this->productModel->updateProduct($productId , $productName,floatval($productPrice), $productSize, $category_id);
-            header("Location: " . BASE_URL."/".PRODUCTS_ADMIN_INDEX);
-    }
 
+            if ($_FILES['input_name']['type'] == "image/jpg" || 
+                $_FILES['input_name']['type'] == "image/jpeg" ||
+                $_FILES['input_name']['type'] == "image/png" ) { 
+                    var_dump($_FILES['input_name']['tmp_name']);
+                $this->productModel->updateProduct($productId , $productName,floatval($productPrice), $productSize, $category_id, $_FILES['input_name']['tmp_name']);
+
+            }
+             else {
+                 var_dump($_FILES['input_name']['tmp_name']);
+                 $this->productModel->updateProduct($productId , $productName,floatval($productPrice), $productSize, $category_id);
+             }
+
+            header("Location: " . BASE_URL."/".PRODUCTS_ADMIN_INDEX);
+        }
     
-    function insertProduct($product){
+    
+    function insertProduct(){
         $this->loginHelper->checkIsAdmin();
-        try{
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
             $productName= $this->getOrThrow('name');
             $productSize = $this->getOrThrow('size');
             $productPrice = $this->getOrThrow('price'); 
             $category_id =  $this->getOrThrow('category_id');
-            $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id);
-            header("Location: " . BASE_URL."/".PRODUCTS_ADMIN_INDEX); 
-        }catch(Exception $e){
-            $this->view->showError($e->getMessage());
-        }
-        
 
+            if ($_FILES['input_name']['type'] == "image/jpg" || 
+                $_FILES['input_name']['type'] == "image/jpeg" ||
+                $_FILES['input_name']['type'] == "image/png" ) { 
+                    var_dump($_FILES['input_name']['tmp_name']);
+                $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id, $_FILES['input_name']['tmp_name']);
+                
+            }
+            else{
+                $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id);
+            }
+            header("Location: " . BASE_URL."/".PRODUCTS_ADMIN_INDEX); 
+
+        }else{
+            $this->view->showError('error');
+        }
      
     }
 
@@ -100,5 +124,11 @@ class ProductsController {
 
     }
 
+    function deleteImage($id) {
+        $this->loginHelper->checkIsAdmin();
+        $pathImg = null;
+        $this->productModel->deleteImage($id, $pathImg);
+        header("Location: " . BASE_URL. "/".PRODUCTS_ADMIN_INDEX);
+    }
    
 }

@@ -11,25 +11,26 @@
             {/if}
         </div> 
         
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Categoria</th>
-                    <th scope="col">Producto</th>
-                    <th scope="col">Talle</th>
-                    <th scope="col">Precio</th>
-                </tr>
-            </thead>
-            <tbody>           
-                <tr>
-                    <td scope="row"><a class= "list-group-item" href="{BASE_URL}/productsCategory/{$product->category_id}">{$product->category|upper}</a></th>
-                    <td>{$product->name|capitalize}</td>
-                    <td>{$product->size|capitalize}</td>
-                    <td>{$product->price|floatval}</td>
-                </tr> 
-            </tbody>
-        
-        </table> 
+        <div class="card" style="width: 30rem;">
+            <div>
+                {if isset($item->imagen)}
+                    <img src="{$product->image}" height="120" width="80" class="card-img-top">
+                {/if}
+                
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Producto: {$product->name|capitalize}</h5>
+            </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Categoria:{$product->category|upper}</a> </li>
+                    <li class="list-group-item">Talle:{$product->size|capitalize}</li>
+                    <li class="list-group-item">Precio:{$product->price|floatval}</li>
+                </ul>
+            <div class="card-body">
+                <a  href="{BASE_URL}/productsCategory/{$product->category_id}">Ir a categoria: {$product->category|upper}</a>
+            </div>
+        </div>
+
 
         {if $isLoggedIn}
         <form method="POST"  action=""  class="my-4" id="create-comment-form" >
