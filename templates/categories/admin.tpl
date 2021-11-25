@@ -11,19 +11,22 @@
                 <th scope="col" class=" list-group-item-success">{$titulo|upper} </th>
                 <th scope="col" class=" list-group-item-secondary ">Editar</th>
                 <th scope="col" class="list-group-item list-group-item-secondary ">Eliminar</th>
-            </tr>             
+            </tr>
             <tbody>
                 {foreach from= $categories item=$category}
                     <tr>
-                        <td> <a class="list-group-item list-group-item-action list-group-item-success"> {$category->name|upper} </a></td>
-                        <td> <a class="btn btn-danger  list-group-item list-group-item-action list-group-item-secondary" href="{BASE_URL}/editCategory/{$category->id}">   Editar </a></td>
-                        <td> <a class="btn btn-danger  list-group-item list-group-item-action list-group-item-secondary" href="{BASE_URL}/deleteCategory/{$category->id}">   Eliminar </a></td>
+                        <td> <a class="list-group-item list-group-item-action list-group-item-success">
+                                {$category->name|upper} </a></td>
+                        <td> <a class="btn btn-danger  list-group-item list-group-item-action list-group-item-secondary"
+                                href="{BASE_URL}/editCategory/{$category->id}"> Editar </a></td>
+                        <td> <a class="btn btn-danger  list-group-item list-group-item-action list-group-item-secondary"
+                                href="{BASE_URL}/deleteCategory/{$category->id}"> Eliminar </a></td>
                     </tr>
                 {/foreach}
             </tbody>
         </table>
     </div>
-</div>      
+</div>
 
 <form action="{BASE_URL}/postCategory" method="POST" class="my-4">
     <div class="row">

@@ -3,7 +3,7 @@
 
 <div class="container">
 
-    <div >
+    <div>
         <h3>{$titleProducts}</h3>
         <table class="table">
             <thead>
@@ -16,19 +16,24 @@
                 </tr>
             </thead>
             <tbody>
-            {foreach from=$products item=$product }
-                <tr>
-                    <td scope="row"><a class= "list-group-item" href="{BASE_URL}/productsCategory/{$product->category_id}">{$product->category|upper}</a></th>
-                    <td>{$product->name|capitalize}</td>
-                    <td>{$product->price|floatval}</td>
-                    <td><a class="btn btn-success" href="{BASE_URL}/productView/{$product->id}">Ver</a> </td>
-                </tr>
-            {/foreach}     
+                {foreach from=$products item=$product }
+                    <tr>
+                        <td scope="row"><a class="list-group-item"
+                                href="{BASE_URL}/productsCategory/{$product->category_id}">{$product->category|upper}</a>
+                            </th>
+                        <td>{$product->name|capitalize}</td>
+                        <td>{$product->price|floatval}</td>
+                        <td><a class="btn btn-success" href="{BASE_URL}/productView/{$product->id}">Ver</a> </td>
+                    </tr>
+                {/foreach}
             </tbody>
-        </table> 
-      
+            <tfoot>
+
+            </tfoot>
+        </table>
+
     </div>
 </div>
 
-
+<script src="tiendaMia/js/comments.js"></script>
 {include file="templates/footer.tpl" assign=name var1=value}

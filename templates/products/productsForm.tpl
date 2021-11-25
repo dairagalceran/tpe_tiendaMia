@@ -46,10 +46,10 @@
 
                         {if isset($product->image)}
                             <img src="{$product->image}" height="120" width="80">
-                            <a class="dropdown-item" href="deleteImage/{$product->id}">Borrar Imagen</a>
+                            <a class="dropdown-item" href="{BASE_URL}/deleteImage/{$product->id}">Borrar Imagen</a>
                         {else}
                             <div class="form-group">
-                                <input type="file" name="input_name" id="imageToUpload" class="my-3" >
+                                <input type="file" name="image_file" id="imageToUpload" class="my-3" >
                             </div>
                         {/if}
                 

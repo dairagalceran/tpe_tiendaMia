@@ -35,20 +35,18 @@ class ProductsModel {
 
     
     private function uploadImage($image){
-        
-        $extension = pathinfo($image, PATHINFO_EXTENSION);
-
+        $extension = array_pop(explode('/',$image['type']));
         if ($extension == 'jpg') {
             $target = 'img/products/' . uniqid() . '.jpg';
         }
         elseif ($extension == 'jpeg') { 
-            $target = 'img/products/' . uniqid() . '.jpeg';
+            $target = 'img/products/' . uniqid() . '.jpg';
         }
         else {
             $target = 'img/products/' . uniqid() . '.png';
         }
-        move_uploaded_file($image, $target);
-        return $target;
+        $moved = move_uploaded_file($image['tmp_name'], ROOT_FOLDER.$target);
+        return $moved ? $target: NULL;
     }
     
     function insertProduct($productName, $size, $price, $category_id, $image = null){
@@ -63,14 +61,23 @@ class ProductsModel {
   
 
     function deleteProduct($id){
+        $this->deleteImageFile($id);
         $query = $this->db->prepare('DELETE  FROM  `products`  WHERE id= ?');
         $query->execute([$id]);
         
     }
 
-    function deleteImage($id, $pathImg) {
+    function deleteImageFile($productId){
+        $product = $this->getProduct($productId);
+        if($product && $product->image){
+            unlink($product->image);
+        }
+    }
+
+    function deleteImage($id) {
+        $this->deleteImageFile($id);
         $query = $this->db->prepare('UPDATE products SET image=? WHERE id=?');
-        $query->execute([$pathImg, $id]);
+        $query->execute([null, $id]);
     }
 
     

@@ -3,7 +3,6 @@
 const BASE_URL = "http://localhost/tiendaMia/api/";
 
 
-
 function getProductId() {
     let commentsContainer = document.querySelector("#comments");
     let productId = commentsContainer.getAttribute("data-product-id");
@@ -11,92 +10,94 @@ function getProductId() {
 }
 
 
-
-function renderComment(comment,deleteEnabled){
-    return `<li class="list-group-item ">
-    <p>${comment.user_name} :  ${comment.comment}<p>  <b>Puntaje: ${comment.score}</b></p>
-    <p>${comment.created_at} </p>` +
-    (deleteEnabled ? 
-        `<div class="acciones ms-auto">
-            <a class="btn btn-sm btn-danger btn-delete-comment" data-comment-id="${comment.id}" >Borrar</a>
-        </div>` : '')
-        +`</li>`;
-}
-
-
-async function loadComments(){
+async function loadComments() {
     let productId = getProductId();
     let commentsContainer = document.querySelector("#comments");
     let deleteEnabled = commentsContainer.getAttribute("data-delete-enabled");
-    try{
+    try {
 
-        let  response = await fetch(BASE_URL  + 'comments/product/'+ productId);
-        let commentsByProduct = response.ok ? await response.json() : [] ;
+        let response = await fetch(BASE_URL + 'comments/product/' + productId);
+        let commentsByProduct = response.ok ? await response.json() : [];
         commentsContainer.innerHTML = '';
+
         for (var comment of commentsByProduct) {
             commentsContainer.innerHTML += renderComment(comment, deleteEnabled == "1")
-        }  
-    } catch(e){
+        }
+    } catch (e) {
         console.log(e);
     }
     setupListeners();
+
 }
 
-function setupListeners(){
+function setupListeners() {
     document.querySelectorAll(".btn-delete-comment").forEach(item => {
-         item.addEventListener('click',  deleteComment);
-     });
-
+        item.addEventListener('click', deleteComment);
+    });
 }
+
+
+function renderComment(comment, deleteEnabled) {
+    return `<li class="list-group-item ">
+    <p>${comment.user_name} :  ${comment.comment}<p> <b>Puntaje: ${comment.score}</b></p>
+    <p>${comment.created_at} </p>` +
+        (deleteEnabled ?
+                `<div class="acciones ms-auto">
+                    <a class="btn btn-sm btn-danger btn-delete-comment" data-comment-id="${comment.id}" >Borrar</a>
+                </div>` : '')
+        + `</li>`;
+}
+
 
 let btnCreateComment = document.querySelector("#btn-create-comment");
-if(btnCreateComment){
+if (btnCreateComment) {
     btnCreateComment.addEventListener('click', addComment);
 }
 
 
-async function addComment(e){
+async function addComment(e) {
     e.preventDefault();
 
     let form = document.querySelector("#create-comment-form");
     let data = new FormData(form);
 
     let text = data.get('comment');
-    if(!text || text.trim().length == 0 ){
+    if (!text || text.trim().length == 0) {
         alert('Debes escribir un comentario');
         return false;
     }
+
     let scoreValue = data.get('score');
-    if(!scoreValue ){
+    if (!scoreValue) {
         alert('Debes puntuar el producto');
         return false;
     }
 
-    let comment = {                    
+    let comment = {
         score: data.get('score'),
-        comment: data.get('comment'),   
+        comment: data.get('comment'),
         product_id: data.get('product_id'),
     };
-    
+
     try {
-        let response  = await fetch(BASE_URL +'comments',{
+        let response = await fetch(BASE_URL + 'comments', {
             method: "POST",
-            headers:{
+            headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(comment),
         });
-        if (response.ok){
-            let comment =await response.json;
+        if (response.ok) {
+            let comment = await response.json;
             clearForm();
-            loadComments();           
+            loadComments();
         }
     } catch (e) {
         console.log(e);
     }
 }
 
-async function deleteComment(e){
+async function deleteComment(e) {
     let commentId = this.getAttribute("data-comment-id");
     await remove(commentId);
     loadComments();
@@ -104,7 +105,7 @@ async function deleteComment(e){
 
 async function remove(id) {
     try {
-        const response = await fetch( BASE_URL + 'comments/'+id, {
+        const response = await fetch(BASE_URL + 'comments/' + id, {
             method: 'DELETE'
         });
         return response.json();
@@ -114,8 +115,8 @@ async function remove(id) {
     }
 }
 
-function  clearForm(){
-    document.querySelectorAll("#create-comment-form .form-control").forEach(item=>item.value="");
+function clearForm() {
+    document.querySelectorAll("#create-comment-form .form-control").forEach(item => item.value = "");
 }
 
 
