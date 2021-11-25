@@ -5,8 +5,11 @@ require_once('controllers/productsController.php');
 require_once('controllers/loginController.php');
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']));
-define('CATEGORIES_ADMIN_INDEX','adminCategorias');
+define('CATEGORIES_ADMIN_INDEX','adminCategories');
+define('PRODUCTS_ADMIN_INDEX','adminProducts');
+define('USERS_ADMIN_INDEX','adminUsers');
 define('ADMIN_DEFAULT', CATEGORIES_ADMIN_INDEX);
+define('ROOT_FOLDER', dirname(__FILE__).'/');
 
 
 if (!empty($_GET['action'])){
@@ -25,11 +28,14 @@ switch ($params[0]) {
     case 'home':
         $controllerProducts->showProducts();
         break; 
-    case 'adminProductos':
+    case PRODUCTS_ADMIN_INDEX:
         $controllerProducts->indexAdmin();
         break;
     case CATEGORIES_ADMIN_INDEX:
         $controllerCategory->indexAdmin();
+        break;
+    case USERS_ADMIN_INDEX:
+        $loginController->indexAdmin();
         break;
     case 'login':
         $loginController->showLogin();
@@ -46,6 +52,15 @@ switch ($params[0]) {
     case 'register': 
         $loginController->registerUser();
         break;
+    case 'deleteUser':
+        $loginController->deleteUser($params[1]);
+        break;
+    case 'editRol':
+        $loginController->editRol($params[1], $params[2]);
+        break;
+    case 'alterRol':
+        $loginController->alterRol($params[1]);
+         break;
     case 'category':
         $controllerCategory->showCategories(); 
         break;
@@ -61,9 +76,12 @@ switch ($params[0]) {
     case 'productsCategory':
         $controllerCategory->showItemsByCategory($params[1]);
         break;
-    case 'postProduct':
-        $controllerProducts->upsertProduct($params[1]);      
+    case 'editProduct':
+        $controllerProducts->editProduct($params[1]);      
         break;  
+    case 'postProduct':
+        $controllerProducts->insertProduct();      
+        break;
     case 'productView':
         $controllerProducts->showProduct($params[1]); 
         break;
@@ -73,7 +91,11 @@ switch ($params[0]) {
     case 'editProductForm':
         $controllerProducts->showProductsEditForm($params[1]);
         break;
+    case 'deleteImage':
+        $controllerProducts->deleteImage($params[1]); 
+        break;
     default:
         echo '404 - Página no encontrada';
         break;
+
 }

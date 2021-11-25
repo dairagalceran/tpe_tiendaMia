@@ -5,78 +5,97 @@ include_once('models/productsModel.php');
 include_once('views/categoryView.php');
 include_once('helpers/loginHelper.php');
 
- class CategoryController {
+class CategoryController
+{
 
     private $categoryModel;
     private $productModel;
     private $view;
     private $loginHelper;
-    
 
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->categoryModel = new CategoriesModel();
         $this->productModel = new ProductsModel();
         $this->view = new CategoriesView();
         $this->loginHelper = new LoginHelper();
     }
+    function getOrThrow($key)
+    {
+        if (isset($_REQUEST[$key]) && $_REQUEST[$key] != '') {
+            return $_REQUEST[$key];
+        }
+        throw new Exception("Falta el dato $key");
+    }  
 
-    function showCategories() {
+    function showCategories()
+    {
         $categories = $this->categoryModel->getAllCategories();
         $this->view->showCategories($categories);
     }
-    
 
-    public function indexAdmin() {
+
+    public function indexAdmin()
+    {
         $this->loginHelper->checkIsAdmin();
         $categories = $this->categoryModel->getAllCategories();
         $this->view->showIndexAdmin($categories);
     }
 
-    function showItemsByCategory($id){
+    function showItemsByCategory($id)
+    {
         $category = $this->categoryModel->findCategoryById($id);
         $products = $this->productModel->getByCategory($id);
-        $this->view->showItemsCategory($products,$category);
+        $this->view->showItemsCategory($products, $category);
     }
 
 
-    function upsertCategories($category){
-        $id= $_REQUEST['id'];
-        if($id){
+    function upsertCategories($category)
+    {
+        $id = $_REQUEST['id'];
+        if ($id) {
             $this->editCategory($id);
-        }else{
+        } else {
             $this->createCategory($category);
         }
     }
 
-    function createCategory($category){
+    function createCategory($category)
+    {
         $this->loginHelper->checkIsAdmin();
-        $category = $_REQUEST['name'];
-        if(!empty($category)){
+        try {
+            $category = $this->getOrThrow("name");
             $this->categoryModel->insertCategory($category);
-            header("Location: " . BASE_URL."/".CATEGORIES_ADMIN_INDEX); 
-        }else {
-            $this->view->showError("Faltan datos obligatorios"); 
-        }   
-    }
-    
-     function editCategory($id){
-        $this->loginHelper->checkIsAdmin();
-        $categoryName = $_REQUEST['name'];
-        $this->categoryModel->updateCategory($id, $categoryName);
-        header("Location: " . BASE_URL."/".CATEGORIES_ADMIN_INDEX); 
+            header("Location: " . BASE_URL . "/" . CATEGORIES_ADMIN_INDEX);
+        } catch (Exception $e) {
+            $this->view->showError($e->getMessage());
+        }
     }
 
-    function showCategoriesEditForm($id){
+    function editCategory($id)
+    {
+        $this->loginHelper->checkIsAdmin();
+        try {
+            $category = $this->getOrThrow("name");
+            $this->categoryModel->updateCategory($id, $category);
+            header("Location: " . BASE_URL . "/" . CATEGORIES_ADMIN_INDEX);
+        } catch (Exception $e) {
+            $this->view->showError($e->getMessage());
+        }
+    }
+
+    function showCategoriesEditForm($id)
+    {
         $this->loginHelper->checkIsAdmin();
         $category = $this->categoryModel->findCategoryById($id);
         $this->view->completeEditForm($category);
     }
 
-    function deleteCategory($id){
+    function deleteCategory($id)
+    {
         $this->loginHelper->checkIsAdmin();
         $this->categoryModel->deleteCategory($id);
-        header("Location: " . BASE_URL."/".CATEGORIES_ADMIN_INDEX); 
+        header("Location: " . BASE_URL . "/" . CATEGORIES_ADMIN_INDEX);
     }
-
 }
-
