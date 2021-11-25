@@ -39,4 +39,9 @@ class CommentsModel
         $query = $this->db->prepare('DELETE  FROM  `comments`  WHERE id= ?');
         $query->execute([$id]);
     }
+    function deleteAllCommentsProductId($productId)
+    {
+        $query = $this->db->prepare('DELETE  FROM  `comments`  WHERE id_product= ?');
+        $query->execute([$productId]);
+    }
 }

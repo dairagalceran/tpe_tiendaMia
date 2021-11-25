@@ -2,6 +2,7 @@
 
 include_once('models/productsModel.php');
 include_once('models/CategoryModel.php');
+include_once('models/commentsModel.php');
 include_once('views/productsView.php');
 include_once('helpers/loginHelper.php');
 
@@ -10,6 +11,7 @@ class ProductsController
 
     private $productModel;
     private $categoryModel;
+    private $commentsModel;
     private $view;
     private $loginHelper;
 
@@ -17,6 +19,7 @@ class ProductsController
     {
         $this->productModel = new ProductsModel();
         $this->categoryModel = new CategoriesModel();
+        $this->commentsModel = new CommentsModel();
         $this->view = new ProductsView();
         $this->loginHelper = new LoginHelper();
     }
@@ -98,13 +101,9 @@ class ProductsController
             $productPrice = $this->getOrThrow('price');
             $category_id =  $this->getOrThrow('category_id');
 
-            if (
-                $_FILES['input_name']['type'] == "image/jpg" ||
-                $_FILES['input_name']['type'] == "image/jpeg" ||
-                $_FILES['input_name']['type'] == "image/png"
-            ) {
+            if ( in_array($_FILES['image_file']['type'], ["image/jpg", "image/jpeg", "image/png"]))  {
 
-                $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id, $_FILES['input_name']['tmp_name']);
+                $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id, $_FILES['image_file']);
             } else {
                 $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id);
             }
@@ -114,10 +113,11 @@ class ProductsController
         }
     }
 
-    function deleteProduct($id)
+    function deleteProduct($productId)
     {
         $this->loginHelper->checkIsAdmin();
-        $this->productModel->deleteProduct($id);
+        $this->commentsModel->deleteAllCommentsProductId($productId);
+        $this->productModel->deleteProduct($productId);
         header("Location: " . BASE_URL . "/" . PRODUCTS_ADMIN_INDEX);
     }
 
