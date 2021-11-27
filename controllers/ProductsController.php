@@ -102,6 +102,7 @@ class ProductsController
             $category_id =  $this->getOrThrow('category_id');
 
             if ( in_array($_FILES['image_file']['type'], ["image/jpg", "image/jpeg", "image/png"]))  {
+
                 $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id, $_FILES['image_file']);
             } else {
                 $this->productModel->insertProduct($productName, $productSize, floatval($productPrice), $category_id);

@@ -9,7 +9,7 @@ define('CATEGORIES_ADMIN_INDEX','adminCategories');
 define('PRODUCTS_ADMIN_INDEX','adminProducts');
 define('USERS_ADMIN_INDEX','adminUsers');
 define('ADMIN_DEFAULT', CATEGORIES_ADMIN_INDEX);
-define('ROOT_FOLDER', dirname(__FILE__));
+define('ROOT_FOLDER', dirname(__FILE__).'/');
 
 
 if (!empty($_GET['action'])){
