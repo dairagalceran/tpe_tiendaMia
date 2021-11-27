@@ -5,6 +5,7 @@ class LoginHelper
 
     function __construct()
     {
+        //abre session diempre para usar helper
         if (session_status() != PHP_SESSION_ACTIVE) {
             session_start();
         }
@@ -39,7 +40,7 @@ class LoginHelper
         if ($this->isAdmin()) {
             if (
                 isset($_SESSION['LAST_ACTIVITY']) &&
-                (time() - $_SESSION['LAST_ACTIVITY'] > 9000)
+                (time() - $_SESSION['LAST_ACTIVITY'] > 900)
             ) {
                 header("Location: " . BASE_URL . "/logout");
                 die();
@@ -56,7 +57,7 @@ class LoginHelper
         if (isset($_SESSION['USER_ID'])) {
             if (
                 isset($_SESSION['LAST_ACTIVITY']) &&
-                (time() - $_SESSION['LAST_ACTIVITY'] > 6000)
+                (time() - $_SESSION['LAST_ACTIVITY'] > 600)
             ) {
                 header("Location: " . BASE_URL . "/logout");
                 die();

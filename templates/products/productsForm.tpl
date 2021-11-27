@@ -45,7 +45,7 @@
                     <div class="form-group">
 
                         {if isset($product->image)}
-                            <img src="{$product->image}" height="120" width="80">
+                            <img src="{BASE_URL}/{$product->image}" height="120" width="80">
                             <a class="dropdown-item" href="{BASE_URL}/deleteImage/{$product->id}">Borrar Imagen</a>
                         {else}
                             <div class="form-group">

@@ -57,13 +57,12 @@ class ProductsModel {
         $query = $this->db->prepare('INSERT INTO products(`name`, `size`, `price`, `category_id`, `image`) VALUES (?, ?, ?, ?, ?)');
         $query->execute([$productName, $size, floatval($price), $category_id, $pathImg]);
         return $this->db->lastInsertId(); 
-    }
-  
+    } 
+    
+
 
     function deleteProduct($id){
         $this->deleteImageFile($id);
-        $this->deleteImageFile($id);
-
         $query = $this->db->prepare('DELETE  FROM  `products`  WHERE id= ?');
         $query->execute([$id]);
         

@@ -60,9 +60,9 @@ class ProductsView
         $this->smarty->display('templates/products/commentsLayout.tpl');
     }
 
-    function showError($msgError)
+    function showError($msgError = null)
     {
         $this->smarty->assign('error', $msgError);
-        $this->smarty->display('../templates/admin.tpl');
+        $this->smarty->display('../templates/error.tpl');
     }
 }

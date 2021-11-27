@@ -3,11 +3,7 @@
 <div class="container ">
    
     <h3>{$titleAdmin}</h3>
-    {if $error} 
-        <div class="alert alert-danger mt-4">
-            {$error}
-        </div>
-    {/if}
+   
     <div class="table mt-5 col-md-5">
         <table class="table">
             <thead>
@@ -36,6 +32,11 @@
                                 Sacar Rol Admin
                             {/if}
                             </a></td>
+                            {if $error}
+                                <div class="alert alert-danger mt-4">
+                                    {$error}
+                                </div>
+                            {/if}
                     </tr>
             {/foreach}     
             </tbody>

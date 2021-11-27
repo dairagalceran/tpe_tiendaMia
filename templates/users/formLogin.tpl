@@ -20,4 +20,4 @@
     </form>
 </div>
 
-{include file="templates/footer.tpl" assign=name var1=value}
+{include file="templates/footer.tpl"}

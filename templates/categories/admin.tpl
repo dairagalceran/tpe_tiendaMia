@@ -5,6 +5,8 @@
 
     <h3>{$titulo}</h3>
 
+
+
     <div class="table mt-5 col-md-5">
         <table>
             <tr>
@@ -28,6 +30,14 @@
     </div>
 </div>
 
+<div>
+    <select class="form-select" name="size">
+        {foreach from=$categories item=$category }
+            <option value="{$category->id}">{$category->name|upper}
+            </option>
+        {/foreach}
+    </select>
+</div>
 <form action="{BASE_URL}/postCategory" method="POST" class="my-4">
     <div class="row">
         <div class="col-9">

@@ -40,7 +40,7 @@ class CategoryController
     {
         $this->loginHelper->checkIsAdmin();
         $categories = $this->categoryModel->getAllCategories();
-        $this->view->showIndexAdmin($categories);
+        $this->view->showIndexAdmin($categories,$error= null);
     }
 
     function showItemsByCategory($id)
@@ -92,10 +92,22 @@ class CategoryController
         $this->view->completeEditForm($category);
     }
 
-    function deleteCategory($id)
+    function deleteCategory($idCategory)
     {
         $this->loginHelper->checkIsAdmin();
-        $this->categoryModel->deleteCategory($id);
-        header("Location: " . BASE_URL . "/" . CATEGORIES_ADMIN_INDEX);
+ 
+        $ProductsByCategoryId = $this->productModel->getByCategory($idCategory);
+        $cantidadProductsByCategoryId = count($ProductsByCategoryId);
+        
+        if($cantidadProductsByCategoryId == 0 ){
+            $this->categoryModel->deleteCategory($idCategory);
+            header("Location: " . BASE_URL . "/" . CATEGORIES_ADMIN_INDEX);
+        }else {
+            $this->view->showError("No es posible eliminar categoria con productos");
+           die();
+        } 
+        
     }
+
+   
 }

@@ -50,6 +50,7 @@
                     <th scope="col">Producto</th>
                     <th scope="col">Precio</th>
                     <th scope="col">Talle</th>
+                    <th scope="col">Ver</th>
                     <th scope="col">Editar</th>
                     <th scope="col">Eliminar</th>
                 </tr>

@@ -35,9 +35,9 @@ class CategoriesView {
         $this->smarty->display('../templates/categories/categoryEditForm.tpl');
     }
 
-    function showError($msgError) {
+    function showError($msgError = null) {
         $this->smarty->assign('error', $msgError);
-        $this->smarty->display('../templates/admin/admin.tpl');
+        $this->smarty->display('../templates/error.tpl');
     }
-
+    
 }

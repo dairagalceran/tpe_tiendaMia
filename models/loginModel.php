@@ -40,12 +40,12 @@ class LoginModel {
     }
 
     function delete($id){
-        $query = $this->db->prepare('DELETE FROM users WHERE id=?');
+        $query = $this->db->prepare('DELETE FROM `users` WHERE id = ?');
         $query->execute([$id]);
     }
 
     function editRol($id, $isAdmin){
-        $query = $this->db->prepare('UPDATE users SET  is_admin = ? WHERE id = ?');
+        $query = $this->db->prepare('UPDATE `users` SET  is_admin = ? WHERE id = ?');
         $query->execute([ $isAdmin, $id]);
     }
   
