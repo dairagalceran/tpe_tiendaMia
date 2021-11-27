@@ -30,14 +30,7 @@
     </div>
 </div>
 
-<div>
-    <select class="form-select" name="size">
-        {foreach from=$categories item=$category }
-            <option value="{$category->id}">{$category->name|upper}
-            </option>
-        {/foreach}
-    </select>
-</div>
+
 <form action="{BASE_URL}/postCategory" method="POST" class="my-4">
     <div class="row">
         <div class="col-9">
